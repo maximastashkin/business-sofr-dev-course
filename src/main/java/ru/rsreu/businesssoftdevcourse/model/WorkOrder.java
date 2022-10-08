@@ -3,11 +3,19 @@ package ru.rsreu.businesssoftdevcourse.model;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Collection;
 import java.util.EnumSet;
 
 @Data
+@Table
+@Entity
 public class WorkOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @NotBlank(message = "Car manufacturer is required")
     private String carManufacturer;
 
@@ -20,7 +28,10 @@ public class WorkOrder {
     private int manufacturingYear;
 
     @Size(min = 1, message = "Pick any breakdown")
-    private EnumSet<BreakdownType> breakdowns = EnumSet.noneOf(BreakdownType.class);
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "order_breakdowns", joinColumns = @JoinColumn(name = "order_id"))
+    private Collection<BreakdownType> breakdowns = EnumSet.noneOf(BreakdownType.class);
 
     @NotBlank(message = "Name is required")
     private String name;
