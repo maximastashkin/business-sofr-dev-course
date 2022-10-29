@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/work_order")
+@RequestMapping("/work-order")
 public class WorkOrderController {
     private final WorkOrdersDao workOrdersDao;
 
@@ -36,13 +36,13 @@ public class WorkOrderController {
     @GetMapping
     public String getOrderForm(Model model) {
         model.addAttribute("workOrder", new WorkOrder());
-        return "work_order";
+        return "work-order";
     }
 
     @PostMapping
     public String processOrder(@Valid @ModelAttribute WorkOrder workOrder, Errors errors) {
         if (errors.hasErrors()) {
-            return "work_order";
+            return "work-order";
         }
         workOrdersDao.save(workOrder);
         return "redirect:/";
