@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authenticationProvider(authenticationProvider())
                 .authorizeRequests()
-                .antMatchers("/work-order/**").hasAuthority("USER")
+                .antMatchers("/work-order/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")

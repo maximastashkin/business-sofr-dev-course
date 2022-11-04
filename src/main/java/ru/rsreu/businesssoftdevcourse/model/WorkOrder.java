@@ -2,19 +2,19 @@ package ru.rsreu.businesssoftdevcourse.model;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Data
-@Table
-@Entity
+@Table("orders")
 public class WorkOrder {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
 
     @NotBlank(message = "Car manufacturer is required")
     private String carManufacturer;
@@ -28,10 +28,7 @@ public class WorkOrder {
     private int manufacturingYear;
 
     @Size(min = 1, message = "Pick any breakdown")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "order_breakdowns", joinColumns = @JoinColumn(name = "order_id"))
-    private Collection<BreakdownType> breakdowns = EnumSet.noneOf(BreakdownType.class);
+    private Set<BreakdownType> breakdowns = EnumSet.noneOf(BreakdownType.class);
 
     @NotBlank(message = "Name is required")
     private String name;

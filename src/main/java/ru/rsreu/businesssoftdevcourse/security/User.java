@@ -3,25 +3,24 @@ package ru.rsreu.businesssoftdevcourse.security;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "users")
-@Table(name = "users")
+@Table("users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
     @NotEmpty
     private String username;
 
@@ -29,7 +28,7 @@ public class User implements UserDetails {
     private String password;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("USER"));
     }
 
