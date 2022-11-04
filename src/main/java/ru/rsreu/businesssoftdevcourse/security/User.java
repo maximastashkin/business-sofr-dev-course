@@ -3,11 +3,12 @@ package ru.rsreu.businesssoftdevcourse.security;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,12 +17,12 @@ import java.util.Collections;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "users")
-@Table(name = "users")
+@Document(collection = "users")
 public class User implements UserDetails {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
+
     @NotEmpty
     private String username;
 
