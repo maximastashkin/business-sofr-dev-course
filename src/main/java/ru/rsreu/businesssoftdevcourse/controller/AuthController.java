@@ -1,5 +1,7 @@
 package ru.rsreu.businesssoftdevcourse.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import javax.validation.Valid;
 
 @Controller
 public class AuthController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
 
@@ -25,6 +29,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String getLoginPage() {
+        LOGGER.debug("Auth controller login page called");
         return "login";
     }
 

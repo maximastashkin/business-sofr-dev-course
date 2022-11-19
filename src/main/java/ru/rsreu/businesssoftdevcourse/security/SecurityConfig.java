@@ -2,14 +2,10 @@ package ru.rsreu.businesssoftdevcourse.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,9 +15,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
+    private final SecurityPropertiesConfig securityPropertiesConfig;
+
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(
+            UserDetailsService userDetailsService,
+            SecurityPropertiesConfig securityPropertiesConfig
+    ) {
         this.userDetailsService = userDetailsService;
+        this.securityPropertiesConfig = securityPropertiesConfig;
     }
 
     @Bean
@@ -46,7 +48,7 @@ public class SecurityConfig {
                 .antMatchers("/work-order/**").hasAuthority("USER")
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage(securityPropertiesConfig.getLoginPageUrl())
                 .and().build();
     }
 }
