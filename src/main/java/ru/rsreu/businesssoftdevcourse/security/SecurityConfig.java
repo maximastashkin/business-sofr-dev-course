@@ -15,15 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
-    private final SecurityPropertiesConfig securityPropertiesConfig;
-
     @Autowired
-    public SecurityConfig(
-            UserDetailsService userDetailsService,
-            SecurityPropertiesConfig securityPropertiesConfig
-    ) {
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.securityPropertiesConfig = securityPropertiesConfig;
     }
 
     @Bean
@@ -44,11 +38,11 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authenticationProvider(authenticationProvider())
-                .authorizeRequests()
-                .antMatchers("/work-order/**").hasAuthority("USER")
+                .authorizeRequests(authorize -> authorize
+                        .antMatchers("/**/register").permitAll()
+                        .antMatchers("/**/users/**").hasAuthority("USER"))
+                .httpBasic()
                 .and()
-                .formLogin()
-                .loginPage(securityPropertiesConfig.getLoginPageUrl())
-                .and().build();
+                .build();
     }
 }

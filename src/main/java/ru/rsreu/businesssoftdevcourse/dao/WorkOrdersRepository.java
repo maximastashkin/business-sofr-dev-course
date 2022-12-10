@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.rsreu.businesssoftdevcourse.model.WorkOrder;
 
 @Repository
-public interface WorkOrdersDao extends JpaRepository<WorkOrder, Long> {
+public interface WorkOrdersRepository extends JpaRepository<WorkOrder, Long> {
 }
